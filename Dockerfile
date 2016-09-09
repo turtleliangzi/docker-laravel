@@ -14,6 +14,27 @@ RUN \
 
 RUN mkdir -p /var/log/supervisor
 
+# 搭建laravel开发环境
+
+RUN \
+        apt-get install -y curl && \
+        curl -sS https://getcomposer.org/installer | php && \
+        mv composer.phar /usr/local/bin/composer && \
+        apt-get install -y git && \
+        apt-get install -y zip && \
+        apt-get install -y php-zip && \
+        apt-get install -y php-mbstring && \
+        apt-get install -y php-dom && \
+        composer global require "laravel/installer"
+
+
+ENV PATH $PATH:~/.composer/vendor/bin
+
+# 新建laravel web目录
+RUN mkdir -p /var/www/laravel
+ADD run.sh ~/run.sh
+
+
 ADD supervisord.conf /etc/supervisord.conf
 
 # 配置nginx
