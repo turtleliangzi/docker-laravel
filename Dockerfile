@@ -1,14 +1,18 @@
-FROM ubuntu:16.04
+FROM ubuntu:latest
 
 MAINTAINER turtle "turtle@anasit.com"
 
+RUN cp /etc/apt/sources.list /etc/apt/sources.list_backup
+
+COPY sources.list /etc/apt/sources.list
+
 RUN \
-        apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0xcbcb082a1bb943db && \
+        apt-get clean && \
         apt-get update && \
+        apt-get install -y vim && \
         apt-get install -y mariadb-server mariadb-common && \
         apt-get install -y php && \
         apt-get install -y nginx && \
-        apt-get install -y vim && \
         apt-get install -y supervisor
 
 
