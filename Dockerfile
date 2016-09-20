@@ -36,7 +36,8 @@ ENV PATH $PATH:~/.composer/vendor/bin
 
 # 新建laravel web目录
 RUN mkdir -p /var/www/laravel
-ADD run.sh /root/run.sh
+ADD run.sh /run.sh
+RUN chmod 755 /run.sh
 
 
 ADD supervisord.conf /etc/supervisord.conf

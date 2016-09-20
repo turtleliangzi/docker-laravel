@@ -15,6 +15,6 @@ service php7.0-fpm start
 cd /var/www/laravel
 chmod -R 777 storage bootstrap/cache
 
-mysql -uroot -p -e create database laravel
+mysql -e "create database laravel default charset utf8"
 
-mysql -uroot -p laravel < /var/www/laravel/sqlfile.sql
+mysql laravel < /var/www/laravel/sqlfile.sql
