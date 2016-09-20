@@ -36,8 +36,14 @@ ENV PATH $PATH:~/.composer/vendor/bin
 
 # 新建laravel web目录
 RUN mkdir -p /var/www/laravel
+
+# 添加启动脚本
 ADD run.sh /run.sh
 RUN chmod 755 /run.sh
+
+#添加同步数据脚本
+ADD db_rsync.sh /db_rsync.sh
+RUN chmod 755 /db_rsync.sh
 
 
 ADD supervisord.conf /etc/supervisord.conf
@@ -45,6 +51,13 @@ ADD supervisord.conf /etc/supervisord.conf
 # 配置nginx
 
 Copy ./default /etc/nginx/sites-available/default
+
+
+# 创建laravel数据库
+
+RUN \
+        service mysql start && \
+        mysql -e "create database laravel default charset utf8"
 
 
 CMD ["/usr/bin/supervisord"]
