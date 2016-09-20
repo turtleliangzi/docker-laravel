@@ -1,1 +1,1 @@
-mysql laravel > /var/www/laravel/sqlfile.sql
+mysql laravel < /var/www/laravel/sqlfile.sql
