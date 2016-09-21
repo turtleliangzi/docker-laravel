@@ -11,7 +11,7 @@ RUN \
         apt-get update && \
         apt-get install -y vim && \
         apt-get install -y mariadb-server mariadb-common && \
-        apt-get install -y php && \
+        apt-get install -y php php-mysql && \
         apt-get install -y nginx && \
         apt-get install -y supervisor
 
@@ -22,7 +22,7 @@ RUN mkdir -p /var/log/supervisor
 
 RUN \
         apt-get install -y curl && \
-        curl -sS https://getcomposer.org/installer | php && \
+        curl -sS http://getcomposer.org/installer | php && \
         mv composer.phar /usr/local/bin/composer && \
         apt-get install -y git && \
         apt-get install -y zip && \
@@ -57,7 +57,9 @@ Copy ./default /etc/nginx/sites-available/default
 
 RUN \
         service mysql start && \
-        mysql -e "create database laravel default charset utf8"
+        mysql -e "create database laravel default charset utf8" && \
+        mysql -e "create user 'laravel'@'localhost' identified by 'laravel'" && \
+        mysql -e "grant all on laravel.* to 'laravel'@'localhost'"
 
 
 CMD ["/usr/bin/supervisord"]
